@@ -12,8 +12,6 @@ namespace bnb
     public:
         pixel_buffer(std::shared_ptr<offscreen_effect_player> oep_ptr, uint32_t width, uint32_t height);
 
-        void get_texture_id(std::function<void(uint32_t texture_id)> callback) override;
-
         void get_RGBA(std::function<void(full_image_t image)> callback) override;
         void get_NV12(std::function<void(full_image_t image)> callback) override;
 

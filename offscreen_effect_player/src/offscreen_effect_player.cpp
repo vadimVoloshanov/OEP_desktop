@@ -7,21 +7,20 @@ namespace bnb
 {
     std::shared_ptr<interfaces::offscreen_effect_player> offscreen_effect_player::create(
         const std::vector<std::string>& path_to_resources, const std::string& client_token,
-        int32_t width, int32_t height, bool manual_audio,
-        std::shared_ptr<interfaces::offscreen_render_target> ort)
+        int32_t width, int32_t height, bool manual_audio, std::optional<ort_sptr> ort)
     {
-        if (ort == nullptr) {
+        if (!ort.has_value()) {
             ort = std::make_shared<offscreen_render_target>(width, height);
         }
 
         return std::shared_ptr<offscreen_effect_player>(new offscreen_effect_player(
-                path_to_resources, client_token, width, height, manual_audio, ort));
+                path_to_resources, client_token, width, height, manual_audio, *ort));
     }
 
     offscreen_effect_player::offscreen_effect_player(
         const std::vector<std::string>& path_to_resources, const std::string& client_token,
         int32_t width, int32_t height, bool manual_audio,
-        std::shared_ptr<interfaces::offscreen_render_target> offscreen_render_target)
+        ort_sptr offscreen_render_target)
             : m_utility(path_to_resources, client_token)
             , m_ep(bnb::interfaces::effect_player::create( {
                 width, height,
@@ -45,8 +44,7 @@ namespace bnb
         m_cancellation_flag = true;
     }
 
-    void offscreen_effect_player::process_image_async(std::shared_ptr<full_image_t> image,
-                std::function<void(std::shared_ptr<interfaces::pixel_buffer>)> callback)
+    void offscreen_effect_player::process_image_async(std::shared_ptr<full_image_t> image, pb_callback callback)
     {
         if (current_frame == nullptr) {
             current_frame = std::make_shared<pixel_buffer>(shared_from_this(),
@@ -101,15 +99,6 @@ namespace bnb
     void offscreen_effect_player::call_js_method(const std::string& method, const std::string& param)
     {
         m_ep->effect_manager()->current()->call_js_method(method, param);
-    }
-
-    void offscreen_effect_player::get_active_texture_id(std::function<void(uint32_t texture_id)> callback)
-    {
-        auto task = [this, callback]() {
-            callback(m_ort->get_active_texture_id());
-        };
-
-        async::spawn(m_scheduler, task);
     }
 
     void offscreen_effect_player::read_current_buffer(std::function<void(bnb::data_t data)> callback)

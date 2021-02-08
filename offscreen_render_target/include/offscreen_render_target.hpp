@@ -16,10 +16,8 @@ namespace bnb
         offscreen_render_target(uint32_t width, uint32_t height);
 
         void activate_context() override;
-
         void prepare_rendering() override;
 
-        uint32_t get_active_texture_id() override;
         bnb::data_t read_current_buffer() override;
 
     private:

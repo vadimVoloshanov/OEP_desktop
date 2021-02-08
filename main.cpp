@@ -13,8 +13,9 @@ int main()
     int32_t width = 1280;
     int32_t height = 720;
 
-    std::shared_ptr<bnb::interfaces::offscreen_render_target> ort =
-        std::make_shared<bnb::offscreen_render_target>(width, height);
+    std::optional<std::shared_ptr<bnb::interfaces::offscreen_render_target>> ort;
+    ort = std::make_shared<bnb::offscreen_render_target>(width, height);
+
     auto oep = bnb::offscreen_effect_player::create({ BNB_RESOURCES_FOLDER }, BNB_CLIENT_TOKEN,
                                                width, height, false, ort);
     oep->load_effect("effects/test_BG");

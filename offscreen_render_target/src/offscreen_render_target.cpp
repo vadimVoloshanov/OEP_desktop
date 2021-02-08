@@ -61,11 +61,6 @@ namespace bnb
         }
     }
 
-    uint32_t offscreen_render_target::get_active_texture_id()
-    {
-        return texture;
-    }
-
     data_t offscreen_render_target::read_current_buffer()
     {
         activate_context();
@@ -74,7 +69,6 @@ namespace bnb
 
         glBindTexture(GL_TEXTURE_2D, texture);
         glReadPixels(0, 0, m_width, m_height, GL_RGBA, GL_UNSIGNED_BYTE, data.data.get());
-        // glGetTexImage(GL_TEXTURE_2D, 0, GL_BGRA, GL_UNSIGNED_BYTE, data.data.get());
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glDeleteFramebuffers(1, &m_framebuffer);

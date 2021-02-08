@@ -9,11 +9,12 @@ namespace bnb::interfaces
     public:
         virtual ~offscreen_render_target() = default;
 
+        //activate context for current thread
         virtual void activate_context() = 0;
-
+        //preparing texture for effect_player
         virtual void prepare_rendering() = 0;
 
-        virtual uint32_t get_active_texture_id() = 0;
+        //reading current buffer of active texture
         virtual bnb::data_t read_current_buffer() = 0;
     };
 } // bnb::interfaces

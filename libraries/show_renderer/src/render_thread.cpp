@@ -9,14 +9,7 @@ render_thread::render_thread(GLFWwindow* window, int32_t width, int32_t height)
     , m_thread([this]() { thread_func(); })
     , m_cancellation_flag(false)
     , m_cur_width(width)
-    , m_cur_height(height)
-{
-    // m_y_row_ptr = (uint8_t*) malloc(m_cur_height * m_cur_width * 4 * sizeof(uint8_t));
-    // m_uv_row_ptr = (uint8_t*) malloc(m_cur_height * m_cur_width * 2 * sizeof(uint8_t));
-
-    // m_cur_y_plane.reset(m_y_row_ptr);
-    // m_cur_uv_plane.reset(m_uv_row_ptr);
-}
+    , m_cur_height(height) {}
 
 render_thread::~render_thread()
 {

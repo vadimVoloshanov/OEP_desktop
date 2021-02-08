@@ -11,15 +11,6 @@ namespace bnb
         , m_width(width)
         , m_height(height) {}
 
-    void pixel_buffer::get_texture_id(std::function<void(uint32_t texture_id)> callback)
-    {
-        if (auto oep_sp = m_oep_ptr.lock()) {
-            oep_sp->get_active_texture_id(callback);
-        }
-
-        throw std::runtime_error("Offscreen effect player destroyed");
-    }
-
     void pixel_buffer::get_RGBA(std::function<void(full_image_t image)> callback)
     {
         if (auto oep_sp = m_oep_ptr.lock()) {
